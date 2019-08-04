@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.seckillservice.mapper.OrdersMapper">
+  <resultMap id="BaseResultMap" type="com.example.secKill.model.Orders">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="buy_num" jdbcType="INTEGER" property="buyNum" />
+    <result column="buy_price" jdbcType="DECIMAL" property="buyPrice" />
+    <result column="order_money" jdbcType="DECIMAL" property="orderMoney" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, uid, goods_id, buy_num, buy_price, order_money, create_time, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from orders
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from orders
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertOrders">
+    insert into orders (uid, goods_id,
+      buy_num, buy_price, order_money,
+      create_time, status)
+    values (#{uid,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER},
+      #{buyNum,jdbcType=INTEGER}, #{buyPrice,jdbcType=DECIMAL}, #{orderMoney,jdbcType=DECIMAL},
+      #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+    <!--返回刚刚插入到数据库中的记录的自动递增的主键值属性
+        keyColumn  数据库中主键列的字段名
+        keyProperty 参数对象中与主键所对应的属性名
+        resultType  参数对象中主键属性的数据类型
+        order  在插入语句执行前还是执行后执行 select @@identity 语句 取值AFTER 表示在插入语句之后执行，BEFORE在插入语句之前执行
+       MyBatis会根据配置将刚刚插入到数据库中的记录的主键值设置到参数对象的某个属性中
+     -->
+    <selectKey keyColumn="id" keyProperty="id" resultType="int" order="AFTER">
+      select @@identity
+    </selectKey>
+  </insert>
+  <insert id="insert" parameterType="com.example.secKill.model.Orders">
+    insert into orders (id, uid, goods_id, 
+      buy_num, buy_price, order_money, 
+      create_time, status)
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, 
+      #{buyNum,jdbcType=INTEGER}, #{buyPrice,jdbcType=DECIMAL}, #{orderMoney,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.secKill.model.Orders">
+    insert into orders
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="buyNum != null">
+        buy_num,
+      </if>
+      <if test="buyPrice != null">
+        buy_price,
+      </if>
+      <if test="orderMoney != null">
+        order_money,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="buyNum != null">
+        #{buyNum,jdbcType=INTEGER},
+      </if>
+      <if test="buyPrice != null">
+        #{buyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderMoney != null">
+        #{orderMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.secKill.model.Orders">
+    update orders
+    <set>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="buyNum != null">
+        buy_num = #{buyNum,jdbcType=INTEGER},
+      </if>
+      <if test="buyPrice != null">
+        buy_price = #{buyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderMoney != null">
+        order_money = #{orderMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.secKill.model.Orders">
+    update orders
+    set uid = #{uid,jdbcType=INTEGER},
+      goods_id = #{goodsId,jdbcType=INTEGER},
+      buy_num = #{buyNum,jdbcType=INTEGER},
+      buy_price = #{buyPrice,jdbcType=DECIMAL},
+      order_money = #{orderMoney,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
