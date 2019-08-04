@@ -56,6 +56,7 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     public CommonsReturnObject secKill(Integer uid, Integer goodsId, String randomName) {
+        System.out.println("开始");
         //设置Redis中的key和value以字符串的格式存放数据，否则存放的内容可能会是乱的
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         redisTemplate.setValueSerializer(stringRedisSerializer);
